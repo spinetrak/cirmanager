@@ -53,11 +53,13 @@ public class CIRManager extends Application<CIRManagerConfiguration>
         return "cir";
     }
 
+    public CIRItemDAO _dao;
 
     @Override
     public void run(final CIRManagerConfiguration configuration_, final Environment environment_)
     {
         final CIRItemDAO dao = new CIRItemDAO(_hbCIRItem.getSessionFactory());
         environment_.jersey().register(new CIRItemResource(dao));
+        _dao = dao;
     }
 }

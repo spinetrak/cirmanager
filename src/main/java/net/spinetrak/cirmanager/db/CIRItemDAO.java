@@ -20,4 +20,9 @@ public class CIRItemDAO extends AbstractDAO<CIRItem>
     {
         return list(namedQuery("net.spinetrak.cirmanager.core.CIRItem.findAll"));
     }
+
+    public CIRItem create(final CIRItem cirItem_)
+    {
+        return persist(cirItem_);
+    }
 }
