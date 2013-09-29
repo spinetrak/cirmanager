@@ -4,9 +4,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 import net.spinetrak.cirmanager.core.CIRItem;
 import net.spinetrak.cirmanager.db.CIRItemDAO;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -15,6 +13,7 @@ import java.util.List;
  */
 @Path("/cis")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class CIRItemResource
 {
     private final CIRItemDAO _cirItemDAO;
@@ -29,5 +28,12 @@ public class CIRItemResource
     public List<CIRItem> listCIRItems()
     {
         return _cirItemDAO.findAll();
+    }
+
+    @POST
+    @UnitOfWork
+    public CIRItem createCIRItem(final CIRItem cirItem_)
+    {
+        return _cirItemDAO.create(cirItem_);
     }
 }

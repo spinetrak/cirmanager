@@ -32,4 +32,14 @@ public class CIRItem
     {
         return _ciid;
     }
+
+    private void setName(final String name_)
+    {
+        _name = name_;
+    }
+
+    private void setCiid(final String ciid_)
+    {
+        _ciid = ciid_;
+    }
 }
