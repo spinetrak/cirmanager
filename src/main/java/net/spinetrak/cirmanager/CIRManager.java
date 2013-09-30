@@ -1,6 +1,7 @@
 package net.spinetrak.cirmanager;
 
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -45,6 +46,7 @@ public class CIRManager extends Application<CIRManagerConfiguration>
     {
         bootstrap_.addBundle(_migrationsBundle);
         bootstrap_.addBundle(_hbCISystem);
+        bootstrap_.addBundle(new AssetsBundle("/app", "/app"));
     }
 
     @Override
