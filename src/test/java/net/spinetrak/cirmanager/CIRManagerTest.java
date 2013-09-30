@@ -2,9 +2,10 @@ package net.spinetrak.cirmanager;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
-import io.dropwizard.testing.FixtureHelpers;
+import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import net.spinetrak.cirmanager.core.CIRItem;
+import net.spinetrak.cirmanager.core.CISystem;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -23,17 +24,39 @@ public class CIRManagerTest
             new DropwizardAppRule<CIRManagerConfiguration>(CIRManager.class, "cirmanager.yml");
 
     @Test
-
-    public void testRun() throws Exception
+    public void testCreateCIRItem() throws Exception
     {
         final Client client = new Client();
-
-        final ClientResponse response = client.resource(
+        final WebResource.Builder builder = client.resource(
                 String.format("http://localhost:%d/cis", RULE.getLocalPort()))
-                .accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).post(ClientResponse.class,
-                                                                                          FixtureHelpers.fixture(
-                                                                                                  "fixtures/ciritem.json"));
-        assertTrue(response != null);
-        assertTrue(response.getEntity(CIRItem.class).getName().equals("ciid:/foo/bar/baz"));
+                .accept(MediaType.APPLICATION_JSON);
+
+        for (int i = 0; i < 10; i++)
+        {
+            final String randomCiidName = getRandomCiidName();
+            final String json = toJson(randomCiidName);
+            final ClientResponse response = builder.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
+            assertTrue(response.getStatus() == 200);
+            final String newName = response.getEntity(CISystem.class).getName();
+            assertTrue(newName.equals(randomCiidName));
+        }
+    }
+
+    private String getRandomCiidName()
+    {
+        return new StringBuffer("ciid:/").append(getRandomWord()).append(
+                "/").append(getRandomWord()).append(
+                "/").append(getRandomWord()).toString();
+    }
+
+    private String toJson(final String name_)
+    {
+        final StringBuffer ciid = new StringBuffer("{").append("\"name\": \"").append(name_).append("\"}");
+        return ciid.toString();
+    }
+
+    private String getRandomWord()
+    {
+        return RandomStringUtils.randomAlphabetic(5);
     }
 }

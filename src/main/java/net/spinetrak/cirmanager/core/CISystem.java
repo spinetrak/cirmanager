@@ -10,11 +10,11 @@ import javax.persistence.*;
 @Table(name = "ciids")
 @NamedQueries({
                       @NamedQuery(
-                              name = "net.spinetrak.cirmanager.core.CIRItem.findAll",
-                              query = "SELECT c FROM CIRItem c"
+                              name = "net.spinetrak.cirmanager.core.CISystem.findAll",
+                              query = "SELECT c FROM CISystem c"
                       )
               })
-public class CIRItem
+public class CISystem
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
