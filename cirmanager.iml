@@ -21,6 +21,9 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="angular" level="application" />
+    <orderEntry type="library" name="angular-strap" level="application" />
+    <orderEntry type="library" name="angular-resource" level="application" />
     <orderEntry type="library" name="Maven: io.dropwizard:dropwizard-core:0.7.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: io.dropwizard:dropwizard-util:0.7.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.2.3" level="project" />

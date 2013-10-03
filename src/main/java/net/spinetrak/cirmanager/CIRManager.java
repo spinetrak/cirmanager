@@ -47,6 +47,11 @@ public class CIRManager extends Application<CIRManagerConfiguration>
         bootstrap_.addBundle(_migrationsBundle);
         bootstrap_.addBundle(_hbCISystem);
         bootstrap_.addBundle(new AssetsBundle("/app", "/app"));
+//        bootstrap_.addBundle(new AssetsBundle("/app/css", "/app/css",null,"cssroot"));
+//        bootstrap_.addBundle(new AssetsBundle("/app/js", "/app/js", null, "jsroot"));
+//        bootstrap_.addBundle(new AssetsBundle("/app/lib", "/app/lib",null,"libroot"));
+//        bootstrap_.addBundle(new AssetsBundle("/app/lib/angular", "/app/lib/angular",null,"libangularroot"));
+//        bootstrap_.addBundle(new AssetsBundle("/app/partials", "/app/partials",null,"partialsroot"));
     }
 
     @Override
