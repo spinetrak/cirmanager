@@ -2,4 +2,8 @@
  * Created by spinetrak on 10/2/13.
  */
 
-angular.module('cirmanager', ['ui.bootstrap']);
+'use strict';
+
+/* App Module */
+
+var cirManager = angular.module('cirmanager', ['cirManagerServices', 'ui.bootstrap']);
