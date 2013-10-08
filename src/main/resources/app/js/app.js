@@ -6,4 +6,4 @@
 
 /* App Module */
 
-var cirManager = angular.module('cirmanager', ['cirManagerServices', 'ui.bootstrap']);
+var cirManager = angular.module('cirmanager', ['ngResource', 'ui.bootstrap']);

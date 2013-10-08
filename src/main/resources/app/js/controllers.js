@@ -4,13 +4,24 @@
 
 'use strict';
 
-function CiidCtrl($scope, CIID) {
+function CiidCtrl($scope, CIIDS, $rootScope) {
     $scope.selected = undefined;
-    $scope.ciids = CIID.query();
+    $scope.ciids = CIIDS.query();
 
     $scope.onSelect = function ($ciid) {
-        $scope.cirsForCiid = $ciid;
+        $scope.ciid = $ciid.ciid;
+        $rootScope.$broadcast('ciidSelected', $ciid.ciid);
     }
 }
 
-cirManager.controller('CiidCtrl', ['$scope', 'CIID', CiidCtrl]);
+
+function CirListCtrl($scope, CIRSforCIID) {
+    $scope.$on('ciidSelected', function (event, ciid) {
+        $scope.cirsForCiid = CIRSforCIID.get({ciid: ciid});
+    });
+}
+
+cirManager.controller('CiidCtrl', ['$scope', 'CIIDS', '$rootScope', CiidCtrl]);
+cirManager.controller('CirListCtrl', ['$scope', 'CIRSforCIID', CirListCtrl]);
+
+

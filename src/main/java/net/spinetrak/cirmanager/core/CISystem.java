@@ -19,7 +19,7 @@ public class CISystem
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ciid", nullable = false)
-    private String _ciid;
+    private int _ciid;
     @Column(name = "name", nullable = false)
     private String _name;
 
@@ -28,7 +28,7 @@ public class CISystem
         return _name;
     }
 
-    public String getCiid()
+    public int getCiid()
     {
         return _ciid;
     }
@@ -38,7 +38,7 @@ public class CISystem
         _name = name_;
     }
 
-    private void setCiid(final String ciid_)
+    private void setCiid(final int ciid_)
     {
         _ciid = ciid_;
     }

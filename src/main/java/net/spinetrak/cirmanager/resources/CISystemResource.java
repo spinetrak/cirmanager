@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by spinetrak on 9/28/13.
  */
-@Path("/cis")
+@Path("/ciids")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CISystemResource

@@ -7,8 +7,11 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import net.spinetrak.cirmanager.core.CIRequest;
 import net.spinetrak.cirmanager.core.CISystem;
+import net.spinetrak.cirmanager.db.CIRequestDAO;
 import net.spinetrak.cirmanager.db.CISystemDAO;
+import net.spinetrak.cirmanager.resources.CIRequestResource;
 import net.spinetrak.cirmanager.resources.CISystemResource;
 
 /**
@@ -19,6 +22,15 @@ public class CIRManager extends Application<CIRManagerConfiguration>
 {
     private final HibernateBundle<CIRManagerConfiguration> _hbCISystem =
             new HibernateBundle<CIRManagerConfiguration>(CISystem.class)
+            {
+                @Override
+                public DataSourceFactory getDataSourceFactory(final CIRManagerConfiguration configuration_)
+                {
+                    return configuration_.getDataSourceFactory();
+                }
+            };
+    private final HibernateBundle<CIRManagerConfiguration> _hbCIRequest =
+            new HibernateBundle<CIRManagerConfiguration>(CIRequest.class)
             {
                 @Override
                 public DataSourceFactory getDataSourceFactory(final CIRManagerConfiguration configuration_)
@@ -46,6 +58,7 @@ public class CIRManager extends Application<CIRManagerConfiguration>
     {
         bootstrap_.addBundle(_migrationsBundle);
         bootstrap_.addBundle(_hbCISystem);
+        bootstrap_.addBundle(_hbCIRequest);
         bootstrap_.addBundle(new AssetsBundle("/app", "/app"));
     }
 
@@ -55,13 +68,15 @@ public class CIRManager extends Application<CIRManagerConfiguration>
         return "cirmanager";
     }
 
-    public CISystemDAO _dao;
+    //public CISystemDAO _dao;
 
     @Override
     public void run(final CIRManagerConfiguration configuration_, final Environment environment_)
     {
-        final CISystemDAO dao = new CISystemDAO(_hbCISystem.getSessionFactory());
-        environment_.jersey().register(new CISystemResource(dao));
-        _dao = dao;
+        final CISystemDAO ciSystemDAO = new CISystemDAO(_hbCISystem.getSessionFactory());
+        environment_.jersey().register(new CISystemResource(ciSystemDAO));
+        final CIRequestDAO ciRequestDAO = new CIRequestDAO(_hbCIRequest.getSessionFactory());
+        environment_.jersey().register(new CIRequestResource(ciRequestDAO));
+        //_dao = dao;
     }
 }

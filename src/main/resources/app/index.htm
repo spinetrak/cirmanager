@@ -9,8 +9,8 @@
     <script src="../app/lib/ui-bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
     <script src="../app/js/app.js"></script>
     <script src="../app/js/controllers.js"></script>
+    <script src="../app/js/factories.js"></script>
     <script src="../app/js/filters.js"></script>
-    <script src="../app/js/services.js"></script>
     <link rel="stylesheet" href="../app/css/app.css">
     <link rel="stylesheet" href="../app/css/bootstrap.css">
     <link rel="stylesheet" href="../app/css/bootstrap-responsive.css">
@@ -19,30 +19,31 @@
 <div class="container">
     <div class="row">
         <div class="span12"><h2>CIR Manager</h2></div>
-        <div class="span6">
-            <div ng-controller="CiidCtrl">
-                <div class="label-important">CIID</div>
-                <input type="text" ng-model="selected"
-                       typeahead="(c.name + ' (' + c.ciid + ')') for c in ciids | filter:$viewValue | limitTo:8"
-                       typeahead-on-select="onSelect($item, $model, $label);">
-
-                <h3>{{cirsForCiid}}</h3>
-            </div>
+    </div>
+    <div class="row" ng-controller="CiidCtrl">
+        <div class="span12">
+            <div class="label">CIID</div>
+            <input class="input-medium" type="text" ng-model="selected"
+                   typeahead="(c.name + ' (' + c.ciid + ')') for c in ciids | filter:$viewValue | limitTo:8"
+                   typeahead-on-select="onSelect($item, $model, $label);"/>
         </div>
-        <div class="span6">
-            <h2>Heading</h2>
+    </div>
+    <div class="row" ng-controller="CirListCtrl">
+        <div class="span12">
+            <h3>CIRS</h3>
 
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
+            <p>{{ciid}}</p>
+
+            <p>{{cirsForCiid}}</p>
 
             <p><a class="btn" href="#">View details »</a></p>
         </div>
     </div>
-    <hr>
-    <footer>
-        <p>&copy; spinetrak.net</p>
-    </footer>
+</div>
+<hr>
+<footer>
+    <p>&copy; spinetrak.net</p>
+</footer>
 </div>
 </body>
 </html>

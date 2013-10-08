@@ -4,6 +4,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+import net.spinetrak.cirmanager.core.CIRequest;
 import net.spinetrak.cirmanager.core.CISystem;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.ClassRule;
@@ -28,7 +29,7 @@ public class CIRManagerTest
     {
         final Client client = new Client();
         final WebResource.Builder builder = client.resource(
-                String.format("http://localhost:%d/cis", RULE.getLocalPort()))
+                String.format("http://localhost:%d/ciids", RULE.getLocalPort()))
                 .accept(MediaType.APPLICATION_JSON);
 
         for (int i = 0; i < 10; i++)
@@ -40,6 +41,24 @@ public class CIRManagerTest
             final String newName = response.getEntity(CISystem.class).getName();
             assertTrue(newName.equals(randomCiidName));
         }
+    }
+
+    @Test
+    public void testGetCIRequest() throws Exception
+    {
+        final Client client = new Client();
+        final WebResource.Builder builder = client.resource(
+                String.format("http://localhost:%d/cirs/ciids/210", RULE.getLocalPort()))
+                .accept(MediaType.APPLICATION_JSON);
+
+        final ClientResponse response = builder.type(MediaType.APPLICATION_JSON).get(
+                ClientResponse.class);
+        final MediaType type = response.getType();
+        assertTrue(response.getStatus() == 200);
+        final CIRequest cir = response.getEntity(CIRequest.class);
+        final int cirID = cir.getCirid();
+        assertTrue(cirID > 0);
+
     }
 
     private String getRandomCiidName()

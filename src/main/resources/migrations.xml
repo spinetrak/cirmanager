@@ -15,5 +15,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <createTable tableName="cirs">
+            <column name="cirid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ciid" type="bigint" autoIncrement="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 </databaseChangeLog>
