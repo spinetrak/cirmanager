@@ -38,7 +38,7 @@ public class CIRequest
         return _cirid;
     }
 
-    public void setCir(final int cirid_)
+    public void setCirid(final int cirid_)
     {
         _cirid = cirid_;
     }

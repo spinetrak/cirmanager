@@ -2,6 +2,7 @@ package net.spinetrak.cirmanager;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import net.spinetrak.cirmanager.core.CIRequest;
@@ -11,7 +12,9 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -22,7 +25,7 @@ public class CIRManagerTest
 {
     @ClassRule
     public static final DropwizardAppRule<CIRManagerConfiguration> RULE =
-            new DropwizardAppRule<CIRManagerConfiguration>(CIRManager.class, "cirmanager.yml");
+            new DropwizardAppRule<>(CIRManager.class, "cirmanager.yml");
 
     @Test
     public void testCreateCIRItem() throws Exception
@@ -53,24 +56,26 @@ public class CIRManagerTest
 
         final ClientResponse response = builder.type(MediaType.APPLICATION_JSON).get(
                 ClientResponse.class);
-        final MediaType type = response.getType();
         assertTrue(response.getStatus() == 200);
-        final CIRequest cir = response.getEntity(CIRequest.class);
-        final int cirID = cir.getCirid();
+        final List<CIRequest> cirs = response.getEntity(new GenericType<List<CIRequest>>()
+        {
+        });
+        assertEquals(1, cirs.size());
+        final int cirID = cirs.get(0).getCirid();
         assertTrue(cirID > 0);
 
     }
 
     private String getRandomCiidName()
     {
-        return new StringBuffer("ciid:/").append(getRandomWord()).append(
+        return new StringBuilder("ciid:/").append(getRandomWord()).append(
                 "/").append(getRandomWord()).append(
                 "/").append(getRandomWord()).toString();
     }
 
     private String toJson(final String name_)
     {
-        final StringBuffer ciid = new StringBuffer("{").append("\"name\": \"").append(name_).append("\"}");
+        final StringBuilder ciid = new StringBuilder("{").append("\"name\": \"").append(name_).append("\"}");
         return ciid.toString();
     }
 

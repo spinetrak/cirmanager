@@ -17,7 +17,11 @@ function CiidCtrl($scope, CIIDS, $rootScope) {
 
 function CirListCtrl($scope, CIRSforCIID) {
     $scope.$on('ciidSelected', function (event, ciid) {
-        $scope.cirsForCiid = CIRSforCIID.get({ciid: ciid});
+        $scope.showCirs = false;
+        CIRSforCIID.query({ciid: ciid}, function (cirs) {
+            $scope.cirsForCiid = cirs;
+            $scope.showCirs = cirs.length > 0;
+        });
     });
 }
 
