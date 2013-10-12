@@ -18,12 +18,12 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="span12"><h2>CIR Manager</h2></div>
+        <div class="span12"><h4>CIR Manager</h4></div>
     </div>
     <div class="row" ng-controller="CiidCtrl">
         <div class="span12">
             <label class="label">CIID
-                <input class="input-medium" type="text" ng-model="selected"
+                <input class="input-xlarge" type="text" ng-model="selected"
                        typeahead="(c.name + ' (' + c.ciid + ')') for c in ciids | filter:$viewValue | limitTo:8"
                        typeahead-on-select="onSelect($item, $model, $label);"/>
             </label>
@@ -31,7 +31,7 @@
     </div>
     <div class="row" ng-controller="CirListCtrl">
         <div class="span12" ng-show="showCirs">
-            <h3>CIRS</h3>
+            <h5>CIRS</h5>
             <table class="table table-bordered">
                 <tr class="label-info">
                     <td>CIID</td>

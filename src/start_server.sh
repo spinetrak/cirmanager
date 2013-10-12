@@ -1,0 +1,1 @@
+java -jar -Ddw.server.connector.port=7777 target/cirmanager-0.0.1-SNAPSHOT.jar server cirmanager.yml

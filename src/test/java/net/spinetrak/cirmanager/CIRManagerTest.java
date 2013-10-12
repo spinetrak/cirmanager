@@ -32,7 +32,7 @@ public class CIRManagerTest
     {
         final Client client = new Client();
         final WebResource.Builder builder = client.resource(
-                String.format("http://localhost:%d/ciids", RULE.getLocalPort()))
+                String.format("http://localhost:%d/restapi/ciids", RULE.getLocalPort()))
                 .accept(MediaType.APPLICATION_JSON);
 
         for (int i = 0; i < 10; i++)
@@ -51,7 +51,7 @@ public class CIRManagerTest
     {
         final Client client = new Client();
         final WebResource.Builder builder = client.resource(
-                String.format("http://localhost:%d/cirs/ciids/210", RULE.getLocalPort()))
+                String.format("http://localhost:%d/restapi/cirs/ciids/210", RULE.getLocalPort()))
                 .accept(MediaType.APPLICATION_JSON);
 
         final ClientResponse response = builder.type(MediaType.APPLICATION_JSON).get(

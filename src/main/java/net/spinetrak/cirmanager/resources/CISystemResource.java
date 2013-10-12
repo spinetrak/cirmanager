@@ -1,12 +1,14 @@
 package net.spinetrak.cirmanager.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+import io.dropwizard.jersey.caching.CacheControl;
 import net.spinetrak.cirmanager.core.CISystem;
 import net.spinetrak.cirmanager.db.CISystemDAO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by spinetrak on 9/28/13.
@@ -25,6 +27,7 @@ public class CISystemResource
 
     @GET
     @UnitOfWork
+    @CacheControl(maxAge = 60, maxAgeUnit = TimeUnit.MINUTES)
     public List<CISystem> listCIRItems()
     {
         return _ciSystemDAO.findAll();

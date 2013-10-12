@@ -20,6 +20,8 @@ import net.spinetrak.cirmanager.resources.CISystemResource;
 
 public class CIRManager extends Application<CIRManagerConfiguration>
 {
+    private static final String PROD = "PROD";
+
     private final HibernateBundle<CIRManagerConfiguration> _hbCISystem =
             new HibernateBundle<CIRManagerConfiguration>(CISystem.class)
             {
@@ -68,8 +70,6 @@ public class CIRManager extends Application<CIRManagerConfiguration>
         return "cirmanager";
     }
 
-    //public CISystemDAO _dao;
-
     @Override
     public void run(final CIRManagerConfiguration configuration_, final Environment environment_)
     {
@@ -77,6 +77,5 @@ public class CIRManager extends Application<CIRManagerConfiguration>
         environment_.jersey().register(new CISystemResource(ciSystemDAO));
         final CIRequestDAO ciRequestDAO = new CIRequestDAO(_hbCIRequest.getSessionFactory());
         environment_.jersey().register(new CIRequestResource(ciRequestDAO));
-        //_dao = dao;
     }
 }

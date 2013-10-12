@@ -7,11 +7,11 @@
 /* Factories */
 
 cirManager.factory('CIIDS', ['$resource', function ($resource) {
-    return $resource('/ciids',
+    return $resource('/restapi/ciids',
         {}, {});
 }]);
 
 cirManager.factory('CIRSforCIID', ['$resource', function ($resource) {
-    return $resource('/cirs/ciids/:ciid',
+    return $resource('/restapi/cirs/ciids/:ciid',
         { ciid: '@ciid' }, {});
 }]);
