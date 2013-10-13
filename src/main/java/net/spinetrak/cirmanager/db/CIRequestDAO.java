@@ -23,4 +23,11 @@ public class CIRequestDAO extends AbstractDAO<CIRequest>
         query.setInteger("ciid", ciid_);
         return list(query);
     }
+
+
+    public CIRequest create(final CIRequest ciRequest_)
+    {
+        final CIRequest req = persist(ciRequest_);
+        return req;
+    }
 }

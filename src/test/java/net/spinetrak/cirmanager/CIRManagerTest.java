@@ -1,5 +1,7 @@
 package net.spinetrak.cirmanager;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
@@ -8,14 +10,16 @@ import io.dropwizard.testing.junit.DropwizardAppRule;
 import net.spinetrak.cirmanager.core.CIRequest;
 import net.spinetrak.cirmanager.core.CISystem;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 /**
@@ -26,44 +30,127 @@ public class CIRManagerTest
     @ClassRule
     public static final DropwizardAppRule<CIRManagerConfiguration> RULE =
             new DropwizardAppRule<>(CIRManager.class, "cirmanager.yml");
+    final static Logger LOGGER = Logger.getLogger(CIRManagerTest.class);
+    private ObjectMapper _mapper;
+
+    @Before
+    public void setUp()
+    {
+        _mapper = new ObjectMapper();
+    }
 
     @Test
-    public void testCreateCIRItem() throws Exception
+    public void testCreateCISystem() throws Exception
     {
-        final Client client = new Client();
-        final WebResource.Builder builder = client.resource(
-                String.format("http://localhost:%d/restapi/ciids", RULE.getLocalPort()))
-                .accept(MediaType.APPLICATION_JSON);
-
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
         {
-            final String randomCiidName = getRandomCiidName();
-            final String json = toJson(randomCiidName);
-            final ClientResponse response = builder.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
-            assertTrue(response.getStatus() == 200);
-            final String newName = response.getEntity(CISystem.class).getName();
-            assertTrue(newName.equals(randomCiidName));
+            final WebResource.Builder _ciidsBuilder = new Client().resource(
+                    String.format("http://localhost:%d/restapi/ciids", RULE.getLocalPort()))
+                    .accept(MediaType.APPLICATION_JSON_TYPE).type(MediaType.APPLICATION_JSON_TYPE);
+            final CISystem ciid = makeCiid();
+            final ClientResponse responseCiid = _ciidsBuilder.post(ClientResponse.class, asJSON(ciid));
+            checkStatus(responseCiid);
+            final CISystem newCiid = responseCiid.getEntity(CISystem.class);
+            assertTrue(ciid.getName().equals(newCiid.getName()));
         }
+    }
+
+    @Test
+    public void testCreateCIRRequest()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                final WebResource.Builder _cirsBuilder = new Client().resource(
+                        String.format("http://localhost:%d/restapi/cirs", RULE.getLocalPort()))
+                        .accept(MediaType.APPLICATION_JSON_TYPE).type(MediaType.APPLICATION_JSON_TYPE);
+                final CIRequest cir = makeCirRequest(i);
+                final ClientResponse responseCir = _cirsBuilder.post(ClientResponse.class, asJSON(cir));
+                checkStatus(responseCir);
+                final CIRequest newCir = responseCir.getEntity(CIRequest.class);
+                assertTrue(cir.getSummary().equals(newCir.getSummary()));
+                assertTrue(cir.getCreatedBy().equals(newCir.getCreatedBy()));
+                assertTrue(cir.getCreatedOn().equals(newCir.getCreatedOn()));
+            }
+        }
+    }
+
+    private void checkStatus(final ClientResponse response_)
+    {
+        LOGGER.debug("Response: " + response_ + "(" + response_.getStatus() + ")");
+        assertEquals(200, response_.getStatus());
+    }
+
+    private CIRequest makeCirRequest(final int ciid_)
+    {
+        final String randomCreatedBy = getRandomEmail();
+        final String randomSummary = getRandomSummary();
+        final Date date = new Date();
+
+        final CIRequest cir = new CIRequest();
+        cir.setCreatedBy(randomCreatedBy);
+        cir.setSummary(randomSummary);
+        cir.setCreatedOn(date);
+        cir.setCiid(ciid_);
+        return cir;
+    }
+
+    private CISystem makeCiid()
+    {
+        final CISystem ciid = new CISystem();
+        ciid.setName(getRandomCiidName());
+        return ciid;
+    }
+
+    private String asJSON(final Object object_)
+    {
+        try
+        {
+            final String json = _mapper.writeValueAsString(object_);
+            LOGGER.debug(json);
+            return json;
+        }
+        catch (final JsonProcessingException ex_)
+        {
+            fail("Unable to convert " + object_ + " to JSON: " + ex_.getMessage());
+            ex_.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getRandomEmail()
+    {
+        return getRandomWord() + "@" + getRandomWord() + ".com";
+    }
+
+    private String getRandomSummary()
+    {
+        return "Summary: " + getRandomWord() + getRandomWord();
     }
 
     @Test
     public void testGetCIRequest() throws Exception
     {
-        final Client client = new Client();
-        final WebResource.Builder builder = client.resource(
-                String.format("http://localhost:%d/restapi/cirs/ciids/210", RULE.getLocalPort()))
-                .accept(MediaType.APPLICATION_JSON);
-
-        final ClientResponse response = builder.type(MediaType.APPLICATION_JSON).get(
+        final WebResource.Builder _cirBuilder = new Client().resource(
+                String.format("http://localhost:%d/restapi/cirs/ciids/1", RULE.getLocalPort()))
+                .accept(MediaType.APPLICATION_JSON_TYPE).type(MediaType.APPLICATION_JSON_TYPE);
+        final ClientResponse response = _cirBuilder.get(
                 ClientResponse.class);
-        assertTrue(response.getStatus() == 200);
+        checkStatus(response);
         final List<CIRequest> cirs = response.getEntity(new GenericType<List<CIRequest>>()
         {
         });
-        assertEquals(1, cirs.size());
-        final int cirID = cirs.get(0).getCirid();
-        assertTrue(cirID > 0);
-
+        if (cirs.size() > 0)
+        {
+            LOGGER.debug("Got cirs: " + cirs);
+            final int cirID = cirs.get(0).getCirid();
+            assertTrue(cirID > 0);
+        }
+        else
+        {
+            LOGGER.debug("Didn't get any cirs");
+        }
     }
 
     private String getRandomCiidName()
@@ -71,12 +158,6 @@ public class CIRManagerTest
         return new StringBuilder("ciid:/").append(getRandomWord()).append(
                 "/").append(getRandomWord()).append(
                 "/").append(getRandomWord()).toString();
-    }
-
-    private String toJson(final String name_)
-    {
-        final StringBuilder ciid = new StringBuilder("{").append("\"name\": \"").append(name_).append("\"}");
-        return ciid.toString();
     }
 
     private String getRandomWord()

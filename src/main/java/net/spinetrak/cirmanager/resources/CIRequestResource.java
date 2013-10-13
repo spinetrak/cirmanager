@@ -1,12 +1,15 @@
 package net.spinetrak.cirmanager.resources;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.caching.CacheControl;
 import net.spinetrak.cirmanager.core.CIRequest;
 import net.spinetrak.cirmanager.db.CIRequestDAO;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -15,8 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @Path("/cirs")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@JsonAutoDetect
 public class CIRequestResource
 {
     private final CIRequestDAO _ciRequestDAO;
@@ -33,5 +35,12 @@ public class CIRequestResource
     public List<CIRequest> listCIRs(final @PathParam("ciid") int ciid_)
     {
         return _ciRequestDAO.findByCiid(ciid_);
+    }
+
+    @POST
+    @UnitOfWork
+    public CIRequest createCIRItem(final CIRequest ciRequest_)
+    {
+        return _ciRequestDAO.create(ciRequest_);
     }
 }

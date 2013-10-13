@@ -1,12 +1,14 @@
 package net.spinetrak.cirmanager.resources;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.caching.CacheControl;
 import net.spinetrak.cirmanager.core.CISystem;
 import net.spinetrak.cirmanager.db.CISystemDAO;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -14,8 +16,7 @@ import java.util.concurrent.TimeUnit;
  * Created by spinetrak on 9/28/13.
  */
 @Path("/ciids")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@JsonAutoDetect
 public class CISystemResource
 {
     private final CISystemDAO _ciSystemDAO;

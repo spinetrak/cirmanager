@@ -33,12 +33,12 @@ public class CISystem
         return _ciid;
     }
 
-    private void setName(final String name_)
+    public void setName(final String name_)
     {
         _name = name_;
     }
 
-    private void setCiid(final int ciid_)
+    public void setCiid(final int ciid_)
     {
         _ciid = ciid_;
     }

@@ -22,6 +22,18 @@
             <column name="ciid" type="bigint" autoIncrement="false">
                 <constraints nullable="false"/>
             </column>
+            <column name="summary" type="varchar(255)" defaultValue="summary">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createdBy" type="varchar(30)" defaultValue="user@example.com">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createdOn" type="date" defaultValueComputed="1970-01-01">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)" defaultValue="created">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

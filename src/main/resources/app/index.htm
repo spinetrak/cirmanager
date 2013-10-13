@@ -33,15 +33,26 @@
         <div class="span12" ng-show="showCirs">
             <h5>CIRS</h5>
             <table class="table table-bordered">
-                <tr class="label-info">
-                    <td>CIID</td>
-                    <td>CIRID</td>
-                    <td>Action</td>
+                <thead class="label-info">
+                <tr>
+                    <th>CIID</th>
+                    <th>CIRID</th>
+                    <th>Edit</th>
+                    <th>Approve</th>
                 </tr>
+                </thead>
                 <tr ng-repeat="cir in cirsForCiid">
                     <td>{{cir.ciid}}</td>
                     <td>{{cir.cirid}}</td>
-                    <td><a class="label" href="#">View details »</a></td>
+                    <td>
+                        <button class="btn btn-mini btn-success">View</button>
+                        <button class="btn btn-mini btn-warning">Edit</button>
+                        <button class="btn btn-mini btn-danger">Delete</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-mini btn-success">Approve</button>
+                        <button class="btn btn-mini btn-danger">Reject</button>
+                    </td>
                 </tr>
             </table>
         </div>
