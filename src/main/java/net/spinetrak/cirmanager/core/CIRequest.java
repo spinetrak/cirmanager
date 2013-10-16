@@ -27,8 +27,20 @@ public class CIRequest
     private String _createdBy;
     @Column(name = "createdOn", nullable = false)
     private Date _createdOn;
+    @Column(name = "status", nullable = false)
+    private String _status;
     @Column(name = "summary", nullable = false)
     private String _summary;
+
+    public String getCIRStatus()
+    {
+        return _status;
+    }
+
+    public void setCIRStatus(final String status_)
+    {
+        _status = status_;
+    }
 
     public String getCreatedBy()
     {

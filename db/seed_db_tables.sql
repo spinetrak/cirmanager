@@ -10,7 +10,7 @@ CREATE TABLE if not exists public.cirs
   cirid BIGSERIAL NOT NULL,
   ciid BIGINT NOT NULL,
   summary VARCHAR(255) not null default 'summary test',
-  createdOn DATE not null default '1970-01-01',
+  createdOn timestamp not null default '1970-01-01',
   createdBy VARCHAR(30) not null default 'user@example.com',
   status VARCHAR(20) not null default 'created',
   CONSTRAINT PK_CIRS PRIMARY KEY (cirid)

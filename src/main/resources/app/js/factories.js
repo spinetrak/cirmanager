@@ -15,3 +15,8 @@ cirManager.factory('CIRSforCIID', ['$resource', function ($resource) {
     return $resource('/restapi/cirs/ciids/:ciid',
         { ciid: '@ciid' }, {});
 }]);
+
+cirManager.factory('CIR', ['$resource', function ($resource) {
+    return $resource('/restapi/cirs/:cirid',
+        { cirid: '@cirid' }, {});
+}]);

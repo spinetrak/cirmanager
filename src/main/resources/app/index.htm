@@ -16,51 +16,27 @@
     <link rel="stylesheet" href="../app/css/bootstrap-responsive.css">
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="span12"><h4>CIR Manager</h4></div>
-    </div>
-    <div class="row" ng-controller="CiidCtrl">
-        <div class="span12">
-            <label class="label">CIID
-                <input class="input-xlarge" type="text" ng-model="selected"
-                       typeahead="(c.name + ' (' + c.ciid + ')') for c in ciids | filter:$viewValue | limitTo:8"
-                       typeahead-on-select="onSelect($item, $model, $label);"/>
-            </label>
+<div class="row">
+    <div class="span1"></div>
+    <div class="span10">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <ul class="nav">
+                    <li><a href="/cirs/create">Request CIR</a></li>
+                    <li><a href="/cirs/approve">Approve CIR</a></li>
+                    <li><a href="/cirs/search">Search CIR</a></li>
+                </ul>
+            </div>
+            <div class="container" ng-view>
+
+            </div>
         </div>
+        <hr>
+        <footer>
+            <p>&copy; spinetrak.net</p>
+        </footer>
     </div>
-    <div class="row" ng-controller="CirListCtrl">
-        <div class="span12" ng-show="showCirs">
-            <h5>CIRS</h5>
-            <table class="table table-bordered">
-                <thead class="label-info">
-                <tr>
-                    <th>CIID</th>
-                    <th>CIRID</th>
-                    <th>Edit</th>
-                    <th>Approve</th>
-                </tr>
-                </thead>
-                <tr ng-repeat="cir in cirsForCiid">
-                    <td>{{cir.ciid}}</td>
-                    <td>{{cir.cirid}}</td>
-                    <td>
-                        <button class="btn btn-mini btn-success">View</button>
-                        <button class="btn btn-mini btn-warning">Edit</button>
-                        <button class="btn btn-mini btn-danger">Delete</button>
-                    </td>
-                    <td>
-                        <button class="btn btn-mini btn-success">Approve</button>
-                        <button class="btn btn-mini btn-danger">Reject</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    <div class="span1"></div>
 </div>
-<hr>
-<footer>
-    <p>&copy; spinetrak.net</p>
-</footer>
 </body>
 </html>

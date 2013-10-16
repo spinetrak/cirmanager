@@ -6,9 +6,8 @@ import io.dropwizard.jersey.caching.CacheControl;
 import net.spinetrak.cirmanager.core.CISystem;
 import net.spinetrak.cirmanager.db.CISystemDAO;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -17,6 +16,8 @@ import java.util.concurrent.TimeUnit;
  */
 @Path("/ciids")
 @JsonAutoDetect
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class CISystemResource
 {
     private final CISystemDAO _ciSystemDAO;

@@ -58,9 +58,9 @@ public class CIRManagerTest
     @Test
     public void testCreateCIRRequest()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 6; j++)
             {
                 final WebResource.Builder _cirsBuilder = new Client().resource(
                         String.format("http://localhost:%d/restapi/cirs", RULE.getLocalPort()))
@@ -93,6 +93,7 @@ public class CIRManagerTest
         cir.setSummary(randomSummary);
         cir.setCreatedOn(date);
         cir.setCiid(ciid_);
+        cir.setCIRStatus("created");
         return cir;
     }
 
