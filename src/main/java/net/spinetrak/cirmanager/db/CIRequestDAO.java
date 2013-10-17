@@ -24,10 +24,15 @@ public class CIRequestDAO extends AbstractDAO<CIRequest>
         return list(query);
     }
 
-
     public CIRequest create(final CIRequest ciRequest_)
     {
-        final CIRequest req = persist(ciRequest_);
-        return req;
+        final CIRequest cir = persist(ciRequest_);
+        return cir;
+    }
+
+    public CIRequest getCIR(final int cirid_)
+    {
+        final CIRequest cir = get(cirid_);
+        return cir;
     }
 }

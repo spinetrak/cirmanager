@@ -28,6 +28,15 @@ public class CIRequestResource
         _ciRequestDAO = ciRequestDAO_;
     }
 
+    @Path("/{cirid}")
+    @GET
+    @UnitOfWork
+    @CacheControl(maxAge = 10, maxAgeUnit = TimeUnit.MINUTES)
+    public CIRequest getCIR(final @PathParam("cirid") int cirid_)
+    {
+        return _ciRequestDAO.getCIR(cirid_);
+    }
+
     @Path("/ciids/{ciid}")
     @GET
     @UnitOfWork

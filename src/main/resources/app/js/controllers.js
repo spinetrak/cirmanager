@@ -51,16 +51,24 @@ function CirListCtrl($scope, CIRSforCIID) {
 
     $scope.viewCir = function ($cir) {
         $scope.cirid = $cir.cirid;
+        console.log("cirid selected: " + $cir.ciid);
         $rootScope.$broadcast('viewCiridSelected', $cir.cirid);
     };
 }
 
-function CirDetailsCtrl($scope, CIR) {
-    $scope.$on('viewCiridSelected', function (event, cirid) {
-    });
+function CirDetailsCtrl($scope, CIR, $routeParams) {
+    $scope.cirid = $routeParams.cirid;
+
+    if ($scope.cirid) {
+        CIR.get({cirid: $scope.cirid}, function (cir) {
+            $scope.cir = cir;
+            console.log($scope.cir);
+            delete $scope.cirid;
+        });
+    }
 }
 
 cirManager.controller('CiidCtrl', ['$scope', 'CIIDS', '$rootScope', '$location', CiidCtrl]);
 cirManager.controller('CirListCtrl', ['$scope', 'CIRSforCIID', CirListCtrl]);
-cirManager.controller('CirDetailsCtrl', ['$scope', 'CIR', CirDetailsCtrl]);
+cirManager.controller('CirDetailsCtrl', ['$scope', 'CIR', '$routeParams', CirDetailsCtrl]);
 

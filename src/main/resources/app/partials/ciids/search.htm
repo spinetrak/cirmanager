@@ -1,0 +1,11 @@
+<div class="container" ng-controller="CiidCtrl">
+    <div tooltip="Enter ciid or name to find ciids"
+         tooltip-trigger="mouseenter"
+         tooltip-placement="right">
+        <label class="label">CIID
+            <input class="input-xlarge" type="text" ng-model="selected"
+                   typeahead="(c.name + ' (' + c.ciid + ')') for c in ciids | filter:$viewValue | limitTo:8"
+                   typeahead-on-select="onSelect($item, $model, $label);"/>
+        </label>
+    </div>
+</div>

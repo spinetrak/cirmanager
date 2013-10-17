@@ -22,7 +22,15 @@ cirManager.config(function ($routeProvider) {
             controller: 'CirListCtrl'
         })
         .when('/cirs/create', {
-            templateUrl: '/app/partials/cirs/create.htm',
+            templateUrl: '/app/partials/cirs/list.htm',
+            controller: 'CirDetailsCtrl'
+        })
+        .when('/cirs/view/:cirid', {
+            templateUrl: '/app/partials/cirs/view.htm',
+            controller: 'CirDetailsCtrl'
+        })
+        .when('/cirs/edit/:cirid', {
+            templateUrl: '/app/partials/cirs/edit.htm',
             controller: 'CirDetailsCtrl'
         })
         .when('/cirs/search', {

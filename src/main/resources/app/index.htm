@@ -16,27 +16,27 @@
     <link rel="stylesheet" href="../app/css/bootstrap-responsive.css">
 </head>
 <body>
-<div class="row">
-    <div class="span1"></div>
-    <div class="span10">
-        <div class="navbar">
-            <div class="navbar-inner">
-                <ul class="nav">
-                    <li><a href="/cirs/create">Request CIR</a></li>
-                    <li><a href="/cirs/approve">Approve CIR</a></li>
-                    <li><a href="/cirs/search">Search CIR</a></li>
-                </ul>
-            </div>
-            <div class="container" ng-view>
+<div class="row span1"></div>
+<div class="row span10">
+    <h4>CIR Manager</h4>
 
-            </div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/cirs/create">Request CIR</a></li>
+                <li><a href="/cirs/approve">Approve CIR</a></li>
+                <li><a href="/cirs/search">Search CIR</a></li>
+            </ul>
         </div>
-        <hr>
-        <footer>
-            <p>&copy; spinetrak.net</p>
-        </footer>
     </div>
-    <div class="span1"></div>
+    <div class="container row span10" ng-view>
+
+    </div>
+    <footer class="row span10">
+        <hr/>
+        <p>&copy; spinetrak.net</p>
+    </footer>
 </div>
+<div class="row span1"></div>
 </body>
 </html>
