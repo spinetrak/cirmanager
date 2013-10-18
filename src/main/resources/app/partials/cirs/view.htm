@@ -1,12 +1,49 @@
-<div class="container">
-</div>
 <div class="row" ng-controller="CirDetailsCtrl">
-    <div>{{cir}}</div>
-    <div>{{cir.ciid}}</div>
-    <div>{{cir.cirid}}</div>
-    <div>{{cir.status}}</div>
-    <div>{{cir.createdOn}}</div>
-    <div>{{cir.createdBy}}</div>
-    <div>{{cir.status}}</div>
+    <form name="cirForm" class="well-large">
+        <div class="row-fluid">
+            <div class="control-group span2">
+                <label class="label label-info">CIID</label>
+                <input type="text" size="6" disabled value="{{cir.ciid}}" class="input-block-level">
+            </div>
+            <div class="control-group span2">
+                <label class="label label-info">CIRID</label>
+                <input type="text" size="8" disabled value="{{cir.cirid}}" class="input-block-level">
+            </div>
+            <div class="control-group span4">
+                <label class="label label-info">Created On</label>
+                <input type="text" size="17" disabled value="{{cir.createdOn | date: 'yyyy-MMM-dd HH:mm'}}"
+                       class="input-block-level">
+            </div>
+            <div class="control-group span4">
+                <label class="label label-info">Created By</label>
+                <input type="text" size="30" disabled value="{{cir.createdBy}}" class="input-block-level">
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group span9">
+                <label class="label label-default">Summary</label>
+                <input type="text" ng-model="cir.summary" size="255" required class="input-block-level">
+            </div>
+            <div class="control-group span3">
+                <label class="label label-info">Status</label>
+                <input type="text" size="20" disabled value="{{cir.cirstatus}}" class="input-block-level">
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span6 pull-left">
+                <button class="btn btn-mini btn-danger">Delete</button>
+                <button class="btn btn-mini btn-danger">Reject</button>
+                <button class="btn btn-mini btn-warning" ng-click="revert()">Cancel</button>
+            </div>
+            <div class="span6 pull-right ">
+                <button class="btn btn-mini btn-info right">Save</button>
+                <button class="btn btn-mini btn-success right">Approve</button>
+                <button class="btn btn-mini btn-success right">Submit</button>
+            </div>
+        </div>
+    </form>
 </div>
-</div>
+
+
+
+

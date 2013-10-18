@@ -48,22 +48,18 @@ function CirListCtrl($scope, CIRSforCIID) {
     $scope.isSortDown = function (fieldName) {
         return $scope.sortField === fieldName && $scope.reverse;
     };
-
-    $scope.viewCir = function ($cir) {
-        $scope.cirid = $cir.cirid;
-        console.log("cirid selected: " + $cir.ciid);
-        $rootScope.$broadcast('viewCiridSelected', $cir.cirid);
-    };
 }
 
 function CirDetailsCtrl($scope, CIR, $routeParams) {
     $scope.cirid = $routeParams.cirid;
-
-    if ($scope.cirid) {
+    if ($scope.cirid && !$scope.cir) {
         CIR.get({cirid: $scope.cirid}, function (cir) {
-            $scope.cir = cir;
-            console.log($scope.cir);
-            delete $scope.cirid;
+            $scope.cir = angular.copy(cir);
+            $scope.revert = function () {
+                $scope.cir = angular.copy(cir);
+                $scope.cirForm.$pristine = true;
+                $scope.cirForm.$dirty = false;
+            }
         });
     }
 }
