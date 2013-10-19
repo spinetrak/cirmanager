@@ -6,11 +6,10 @@
 
 angular.module('cirRoutes', [])
 
-
     .config(function ($routeProvider) {
         $routeProvider
-            .when('/cirs/approve', {
-                templateUrl: '/app/partials/cirs/approve.htm'
+            .when('/cirs/approve/:cirid', {
+                templateUrl: '/app/partials/cirs/view.htm'
             })
             .when('/cirs/list/:ciid', {
                 templateUrl: '/app/partials/cirs/list.htm',
@@ -25,7 +24,7 @@ angular.module('cirRoutes', [])
                 controller: 'CirDetailsCtrl'
             })
             .when('/cirs/edit/:cirid', {
-                templateUrl: '/app/partials/cirs/edit.htm',
+                templateUrl: '/app/partials/cirs/view.htm',
                 controller: 'CirDetailsCtrl'
             })
             .when('/cirs/search', {

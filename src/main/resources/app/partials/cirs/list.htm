@@ -42,13 +42,22 @@
                     <td>{{cir.createdOn | date:'yyyy-MMM-dd HH:mm'}}</td>
                     <td>{{cir.summary}}</td>
                     <td>
-                        <a class="btn btn-mini btn-success" href="/cirs/view/{{cir.cirid}}">View</a>
-                        <button class="btn btn-mini btn-warning">Edit</button>
-                        <button class="btn btn-mini btn-danger">Delete</button>
+                        <a class="btn btn-mini btn-success" ng-disabled="!canView(cir.cirid)"
+                           href="/cirs/view/{{cir.cirid}}">View</a>
+                        <button class="btn btn-mini btn-warning" ng-disabled="!canEdit(cir.cirid)"
+                                href="/cirs/view/{{cir.cirid}}">Edit
+                        </button>
+                        <button class="btn btn-mini btn-danger" ng-disabled="!canDelete(cir.cirid)" ng-click="delete()">
+                            Delete
+                        </button>
                     </td>
                     <td>
-                        <button class="btn btn-mini btn-success">Approve</button>
-                        <button class="btn btn-mini btn-danger">Reject</button>
+                        <button class="btn btn-mini btn-success" ng-disabled="!canApprove(cir.cirid)"
+                                ng-click="approve()">Approve
+                        </button>
+                        <button class="btn btn-mini btn-danger" ng-disabled="!canReject(cir.cirid)" ng-click="reject()">
+                            Reject
+                        </button>
                     </td>
                 </tr>
                 </tbody>
