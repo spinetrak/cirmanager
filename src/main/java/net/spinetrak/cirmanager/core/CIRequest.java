@@ -1,36 +1,26 @@
 package net.spinetrak.cirmanager.core;
 
-import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
  * Created by spinetrak on 10/7/13.
  */
 
-@Entity
-@Table(name = "cirs")
-@NamedQueries({
-                      @NamedQuery(
-                              name = "net.spinetrak.cirmanager.core.CIRequest.findByCiid",
-                              query = "SELECT c FROM CIRequest c where ciid=:ciid"
-                      )
-              })
 public class CIRequest
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cirid", nullable = false)
     private int _cirid;
-    @Column(name = "ciid", nullable = false)
     private int _ciid;
-    @Column(name = "createdBy", nullable = false)
-    private String _createdBy;
-    @Column(name = "createdOn", nullable = false)
+    private User _createdBy;
     private Date _createdOn;
-    @Column(name = "status", nullable = false)
     private String _status;
-    @Column(name = "summary", nullable = false)
     private String _summary;
+    private Timestamp _submittedOn;
+    private Timestamp _startDate;
+    private String _risk;
+    private Timestamp _endDate;
+    private String _description;
+    private User _submittedBy;
 
     public String getCIRStatus()
     {
@@ -42,12 +32,12 @@ public class CIRequest
         _status = status_;
     }
 
-    public String getCreatedBy()
+    public User getCreatedBy()
     {
         return _createdBy;
     }
 
-    public void setCreatedBy(final String createdBy_)
+    public void setCreatedBy(final User createdBy_)
     {
         _createdBy = createdBy_;
     }
@@ -90,5 +80,35 @@ public class CIRequest
     public void setCirid(final int cirid_)
     {
         _cirid = cirid_;
+    }
+
+    public void setSubmittedOn(final Timestamp submittedOn_)
+    {
+        _submittedOn = submittedOn_;
+    }
+
+    public void setStartDate(final Timestamp startDate_)
+    {
+        _startDate = startDate_;
+    }
+
+    public void setRisk(final String risk_)
+    {
+        _risk = risk_;
+    }
+
+    public void setEndDate(final Timestamp endDate_)
+    {
+        _endDate = endDate_;
+    }
+
+    public void setSubmittedBy(final User submittedBy_)
+    {
+        _submittedBy = submittedBy_;
+    }
+
+    public void setDescription(final String description_)
+    {
+        _description = description_;
     }
 }

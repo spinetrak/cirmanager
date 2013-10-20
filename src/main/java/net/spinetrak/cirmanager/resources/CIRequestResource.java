@@ -1,7 +1,6 @@
 package net.spinetrak.cirmanager.resources;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.caching.CacheControl;
 import net.spinetrak.cirmanager.core.CIRequest;
 import net.spinetrak.cirmanager.db.CIRequestDAO;
@@ -30,16 +29,14 @@ public class CIRequestResource
 
     @Path("/{cirid}")
     @GET
-    @UnitOfWork
     @CacheControl(maxAge = 10, maxAgeUnit = TimeUnit.MINUTES)
     public CIRequest getCIR(final @PathParam("cirid") int cirid_)
     {
-        return _ciRequestDAO.getCIR(cirid_);
+        return _ciRequestDAO.findByCirid(cirid_);
     }
 
     @Path("/ciids/{ciid}")
     @GET
-    @UnitOfWork
     @CacheControl(maxAge = 10, maxAgeUnit = TimeUnit.MINUTES)
     public List<CIRequest> listCIRs(final @PathParam("ciid") int ciid_)
     {
@@ -47,9 +44,9 @@ public class CIRequestResource
     }
 
     @POST
-    @UnitOfWork
     public CIRequest createCIRItem(final CIRequest ciRequest_)
     {
-        return _ciRequestDAO.create(ciRequest_);
+        final int cirid = _ciRequestDAO.insert(ciRequest_.getCreatedBy().getUserid(), ciRequest_.getCiid());
+        return _ciRequestDAO.findByCirid(cirid);
     }
 }

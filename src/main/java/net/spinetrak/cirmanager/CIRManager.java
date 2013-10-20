@@ -3,16 +3,17 @@ package net.spinetrak.cirmanager;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import net.spinetrak.cirmanager.core.CIRequest;
-import net.spinetrak.cirmanager.core.CISystem;
 import net.spinetrak.cirmanager.db.CIRequestDAO;
 import net.spinetrak.cirmanager.db.CISystemDAO;
+import net.spinetrak.cirmanager.db.UserDAO;
 import net.spinetrak.cirmanager.resources.CIRequestResource;
 import net.spinetrak.cirmanager.resources.CISystemResource;
+import net.spinetrak.cirmanager.resources.UserResource;
+import org.skife.jdbi.v2.DBI;
 
 /**
  * Created by spinetrak on 9/28/13.
@@ -21,25 +22,6 @@ import net.spinetrak.cirmanager.resources.CISystemResource;
 public class CIRManager extends Application<CIRManagerConfiguration>
 {
     private static final String PROD = "PROD";
-
-    private final HibernateBundle<CIRManagerConfiguration> _hbCISystem =
-            new HibernateBundle<CIRManagerConfiguration>(CISystem.class)
-            {
-                @Override
-                public DataSourceFactory getDataSourceFactory(final CIRManagerConfiguration configuration_)
-                {
-                    return configuration_.getDataSourceFactory();
-                }
-            };
-    private final HibernateBundle<CIRManagerConfiguration> _hbCIRequest =
-            new HibernateBundle<CIRManagerConfiguration>(CIRequest.class)
-            {
-                @Override
-                public DataSourceFactory getDataSourceFactory(final CIRManagerConfiguration configuration_)
-                {
-                    return configuration_.getDataSourceFactory();
-                }
-            };
     private final MigrationsBundle<CIRManagerConfiguration> _migrationsBundle =
             new MigrationsBundle<CIRManagerConfiguration>()
             {
@@ -58,9 +40,7 @@ public class CIRManager extends Application<CIRManagerConfiguration>
     @Override
     public void initialize(final Bootstrap<CIRManagerConfiguration> bootstrap_)
     {
-        bootstrap_.addBundle(_migrationsBundle);
-        bootstrap_.addBundle(_hbCISystem);
-        bootstrap_.addBundle(_hbCIRequest);
+        bootstrap_.addBundle(new DBIExceptionsBundle());
         bootstrap_.addBundle(new AssetsBundle("/app", "/app"));
     }
 
@@ -71,11 +51,18 @@ public class CIRManager extends Application<CIRManagerConfiguration>
     }
 
     @Override
-    public void run(final CIRManagerConfiguration configuration_, final Environment environment_)
+    public void run(final CIRManagerConfiguration configuration_, final Environment environment_) throws
+                                                                                                  ClassNotFoundException
     {
-        final CISystemDAO ciSystemDAO = new CISystemDAO(_hbCISystem.getSessionFactory());
+        final DBI jdbi = configuration_.getJDBI(environment_);
+
+        final UserDAO userDAO = jdbi.onDemand(UserDAO.class);
+        environment_.jersey().register(new UserResource(userDAO));
+
+        final CISystemDAO ciSystemDAO = jdbi.onDemand(CISystemDAO.class);
         environment_.jersey().register(new CISystemResource(ciSystemDAO));
-        final CIRequestDAO ciRequestDAO = new CIRequestDAO(_hbCIRequest.getSessionFactory());
+
+        final CIRequestDAO ciRequestDAO = jdbi.onDemand(CIRequestDAO.class);
         environment_.jersey().register(new CIRequestResource(ciRequestDAO));
     }
 }

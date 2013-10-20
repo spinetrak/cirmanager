@@ -1,7 +1,6 @@
 package net.spinetrak.cirmanager.resources;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.caching.CacheControl;
 import net.spinetrak.cirmanager.core.CISystem;
 import net.spinetrak.cirmanager.db.CISystemDAO;
@@ -28,17 +27,16 @@ public class CISystemResource
     }
 
     @GET
-    @UnitOfWork
     @CacheControl(maxAge = 60, maxAgeUnit = TimeUnit.MINUTES)
-    public List<CISystem> listCIRItems()
+    public List<CISystem> listCISystems()
     {
         return _ciSystemDAO.findAll();
     }
 
     @POST
-    @UnitOfWork
-    public CISystem createCIRItem(final CISystem ciSystem_)
+    public CISystem createCISystem(final CISystem ciSystem_)
     {
-        return _ciSystemDAO.create(ciSystem_);
+        final int ciid = _ciSystemDAO.insert(ciSystem_.getName());
+        return _ciSystemDAO.findByCiid(ciid);
     }
 }
