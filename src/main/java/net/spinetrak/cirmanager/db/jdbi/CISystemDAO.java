@@ -1,4 +1,4 @@
-package net.spinetrak.cirmanager.db;
+package net.spinetrak.cirmanager.db.jdbi;
 
 import net.spinetrak.cirmanager.core.CISystem;
 import org.skife.jdbi.v2.StatementContext;
@@ -17,24 +17,25 @@ import java.util.List;
  * Created by spinetrak on 9/28/13.
  */
 @RegisterMapper(CISystemDAO.Mapper.class)
-public interface CISystemDAO
+public interface CISystemDAO extends net.spinetrak.cirmanager.db.ICISystemDAO
 {
-    @GetGeneratedKeys
-    @SqlUpdate("insert into ciids (name) values (:name)")
-    int insert(@Bind("name") final String name_);
-
     @SqlQuery("select * from ciids")
     List<CISystem> findAll();
 
     @SqlQuery("select * from ciids where ciid = :ciid")
     CISystem findByCiid(@Bind("ciid") final int ciid_);
 
+    @GetGeneratedKeys
+    @SqlUpdate("insert into ciids (name) values (:name)")
+    int insert(@Bind("name") final String name_);
+
     void close();
 
     public class Mapper implements ResultSetMapper<CISystem>
     {
-        public CISystem map(final int index_, final ResultSet resultSet_, final StatementContext statementContext_) throws
-                                                                                                                    SQLException
+        public CISystem map(final int index_, final ResultSet resultSet_,
+                            final StatementContext statementContext_) throws
+                                                                      SQLException
         {
             final CISystem cis = new CISystem();
             cis.setCiid(resultSet_.getInt("ciid"));

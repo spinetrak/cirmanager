@@ -1,4 +1,4 @@
-package net.spinetrak.cirmanager.db;
+package net.spinetrak.cirmanager.db.jdbi;
 
 import net.spinetrak.cirmanager.core.User;
 import org.skife.jdbi.v2.StatementContext;
@@ -17,22 +17,22 @@ import java.util.List;
  * Created by spinetrak on 10/19/13.
  */
 @RegisterMapper(UserDAO.Mapper.class)
-public interface UserDAO
+public interface UserDAO extends net.spinetrak.cirmanager.db.IUserDAO
 {
-    @GetGeneratedKeys
-    @SqlUpdate("insert into users (email,password) values (:email, :password)")
-    int insert(@Bind("email") final String email_, @Bind("password") final String password_);
+    void close();
 
     @SqlQuery("select * from users")
     List<User> findAll();
 
-    @SqlQuery("select * from users where userid = :userid")
-    User findByUserid(@Bind("userid") final int userid_);
-
     @SqlQuery("select * from users where email = :email")
     User findByEmail(@Bind("email") final String email_);
 
-    void close();
+    @SqlQuery("select * from users where userid = :userid")
+    User findByUserid(@Bind("userid") final int userid_);
+
+    @GetGeneratedKeys
+    @SqlUpdate("insert into users (email,password) values (:email, :password)")
+    int insert(@Bind("email") final String email_, @Bind("password") final String password_);
 
     public class Mapper implements ResultSetMapper<User>
     {
@@ -40,7 +40,7 @@ public interface UserDAO
                                                                                                                 SQLException
         {
             final User user = new User();
-            user.setUserid(resultSet_.getInt("userid"));
+            user.setUserId(resultSet_.getInt("userid"));
             user.setEmail(resultSet_.getString("email"));
             user.setPassword(resultSet_.getString("password"));
             return user;

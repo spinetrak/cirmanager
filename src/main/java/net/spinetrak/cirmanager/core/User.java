@@ -10,7 +10,7 @@ public class User
     private String _email;
     private String _password;
 
-    public int getUserid()
+    public int getUserId()
     {
         return _userid;
     }
@@ -35,7 +35,7 @@ public class User
         _password = password_;
     }
 
-    public void setUserid(final int userid_)
+    public void setUserId(final int userid_)
     {
         _userid = userid_;
     }

@@ -3,7 +3,7 @@ package net.spinetrak.cirmanager.resources;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import io.dropwizard.jersey.caching.CacheControl;
 import net.spinetrak.cirmanager.core.CISystem;
-import net.spinetrak.cirmanager.db.CISystemDAO;
+import net.spinetrak.cirmanager.db.ICISystemDAO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -19,9 +19,9 @@ import java.util.concurrent.TimeUnit;
 @Consumes(MediaType.APPLICATION_JSON)
 public class CISystemResource
 {
-    private final CISystemDAO _ciSystemDAO;
+    private final ICISystemDAO _ciSystemDAO;
 
-    public CISystemResource(final CISystemDAO ciSystemDAO_)
+    public CISystemResource(final ICISystemDAO ciSystemDAO_)
     {
         _ciSystemDAO = ciSystemDAO_;
     }

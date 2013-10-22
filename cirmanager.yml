@@ -3,8 +3,6 @@ database:
   user: cirmanager
   password: cirmanager
   url: jdbc:postgresql://localhost/cirmanagerdb
-  properties:
-      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   type: simple
@@ -19,6 +17,6 @@ logging:
   level: INFO
   loggers:
     net.spinetrak: DEBUG
-    org.hibernate.SQL: ALL
+    org.postgres.*: ALL
   appenders:
     - type: console

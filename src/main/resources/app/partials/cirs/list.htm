@@ -20,8 +20,8 @@
                     <th ng-click="sort('cirstatus')">Status <i
                             ng-class="{'icon-chevron-up': isSortUp('cirstatus'), 'icon-chevron-down': isSortDown('cirstatus')}"></i>
                     </th>
-                    <th ng-click="sort('createdBy')">Created By <i
-                            ng-class="{'icon-chevron-up': isSortUp('createdBy'), 'icon-chevron-down': isSortDown('createdBy')}"></i>
+                    <th ng-click="sort('createdBy.email')">Created By <i
+                            ng-class="{'icon-chevron-up': isSortUp('createdBy.email'), 'icon-chevron-down': isSortDown('createdBy.email')}"></i>
                     </th>
                     <th ng-click="sort('createdOn')">Created On <i
                             ng-class="{'icon-chevron-up': isSortUp('createdOn'), 'icon-chevron-down': isSortDown('createdOn')}"></i>
@@ -38,7 +38,7 @@
                     <td>{{cir.ciid}}</td>
                     <td>{{cir.cirid}}</td>
                     <td>{{cir.cirstatus}}</td>
-                    <td>{{cir.createdBy | lowercase}}</td>
+                    <td>{{cir.createdBy.email | lowercase}}</td>
                     <td>{{cir.createdOn | date:'yyyy-MMM-dd HH:mm'}}</td>
                     <td>{{cir.summary}}</td>
                     <td>
